@@ -9,9 +9,6 @@ const bookRoutes = require('./src/routes/books');
 
 const app = express();
 // Criar tabelas automaticamente ao iniciar
-const fs = require('fs');
-const path = require('path');
-
 async function setupDatabase() {
     try {
         const sql = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
