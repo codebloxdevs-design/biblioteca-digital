@@ -8,6 +8,25 @@ const authRoutes = require('./src/routes/auth');
 const bookRoutes = require('./src/routes/books');
 
 const app = express();
+// Criar tabelas automaticamente ao iniciar
+const fs = require('fs');
+const path = require('path');
+
+async function setupDatabase() {
+    try {
+        const sql = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
+        await pool.query(sql);
+        console.log('✅ Banco de dados configurado com sucesso!');
+    } catch (error) {
+        if (error.message && error.message.includes('already exists')) {
+            console.log('✅ Tabelas já existem - tudo certo!');
+        } else {
+            console.error('❌ Erro ao configurar banco:', error.message);
+        }
+    }
+}
+
+setupDatabase();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares de segurança
